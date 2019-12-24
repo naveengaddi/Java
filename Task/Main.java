@@ -10,19 +10,15 @@ class Ball{
 }
 class FindPath{
 	//int max = 10,min = 0, range = max-min+1;
-	public static void  find(){
+	public static void  find(Ball b, int i,int j){
 
-		//Ball object contains (x,y) co-ordinates of it.
-		Ball b = new Ball();
 		System.out.println("Ball Position is "+b.x+" "+b.y);
-
-		//initial position to find path
-		int i = 0 ,j = 0;
-
-		for(; i <= b.x;i++){
+		System.out.println("Initial Position is x->"+i+" y->"+j);
+		
+		for(i=i+1; i <= b.x;i++){
 			System.out.println("Move Right ==> position is x->"+i+" y->"+j);
 		}
-		for(; j<= b.y;j++){
+		for(j=j+1; j<= b.y;j++){
 			System.out.println("Move Up ==> position is x->"+(i-1)	+" y->"+j);
 		}
 
@@ -31,7 +27,12 @@ class FindPath{
 
 }
 public class Main{
-	public static void main(String[] args) {		
-		FindPath.find();
+	public static void main(String[] args) {	
+
+		//Ball object contains (x,y) co-ordinates of it.
+		Ball b = new Ball();
+		
+		//0,0 are the initial co-ordinates to find path from.
+		FindPath.find(b,0,0);
 	}
 }
