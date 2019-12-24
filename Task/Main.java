@@ -14,15 +14,41 @@ class FindPath{
 
 		System.out.println("Ball Position is "+b.x+" "+b.y);
 		System.out.println("Initial Position is x->"+i+" y->"+j);
-		
-		for(i=i+1; i <= b.x;i++){
+		i++;
+		while(i<=b.x){
 			System.out.println("Move Right ==> position is x->"+i+" y->"+j);
+			i = move("right",i);
+			
 		}
-		for(j=j+1; j<= b.y;j++){
-			System.out.println("Move Up ==> position is x->"+(i-1)	+" y->"+j);
+		i--;
+		j++;
+		while(j<=b.y){
+			System.out.println("Move Up ==> position is x->"+i+" y->"+j);
+			j = move("up",j);
+			
 		}
 
+		// for(i=i+1; i <= b.x;i++){
+		// 	System.out.println("Move Right ==> position is x->"+i+" y->"+j);
+		// }
+		// for(j=j+1; j<= b.y;j++){
+		// 	System.out.println("Move Up ==> position is x->"+(i-1)	+" y->"+j);
+		// }
+
 		//return true;
+	}
+	//Utility function to move up or right
+	 static int move(String command,int pos){
+		// if(command.equalsIgnoreCase("right")){
+		// 	pos++;
+		// }else if(command.equalsIgnoreCase("up")){
+		// 	pos++;
+		// }
+		if( command.equalsIgnoreCase("right") || command.equalsIgnoreCase("up")){
+			pos++;
+		}
+		return pos;
+
 	}
 
 }
