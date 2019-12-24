@@ -1,4 +1,3 @@
-import java.util.*;
 class Ball{
 	//x,y are the co-ordinates of ball;
 	int x,y;
@@ -13,11 +12,13 @@ class FindPath{
 	//int max = 10,min = 0, range = max-min+1;
 	public static void  find(){
 
+		//Ball object contains (x,y) co-ordinates of it.
 		Ball b = new Ball();
 		System.out.println("Ball Position is "+b.x+" "+b.y);
 
 		//initial position to find path
 		int i = 0 ,j = 0;
+
 		for(i = 0 ; i <= b.x;i++){
 			System.out.println("Move Right ==> position is x->"+i+" y->"+j);
 		}
@@ -27,11 +28,9 @@ class FindPath{
 
 		//return true;
 	}
-	
-
 
 }
-class Main{
+public class Main{
 	public static void main(String[] args) {		
 		FindPath.find();
 	}
