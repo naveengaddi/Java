@@ -11,8 +11,8 @@ class Ball{
 class FindPath{
 	//int max = 10,min = 0, range = max-min+1;
 	/*
-            |2,3    (2 right moves , 3 up moves)
-            | 
+                |2,3    (2 right moves , 3 up moves)
+                | 
 	0,0__ __|
 	*/
 	public static void  find(Ball b, int i,int j){
