@@ -19,10 +19,10 @@ class FindPath{
 		//initial position to find path
 		int i = 0 ,j = 0;
 
-		for(i = 0 ; i <= b.x;i++){
+		for(; i <= b.x;i++){
 			System.out.println("Move Right ==> position is x->"+i+" y->"+j);
 		}
-		for(j = 0 ; j<= b.y;j++){
+		for(; j<= b.y;j++){
 			System.out.println("Move Up ==> position is x->"+(i-1)	+" y->"+j);
 		}
 
