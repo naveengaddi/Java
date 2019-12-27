@@ -43,4 +43,7 @@ class Grid{
 			System.out.println("");
 		}
 	}
+	// public Grid getGrid(){
+	// 	return new Grid();
+	// }
 }
