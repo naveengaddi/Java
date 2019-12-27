@@ -9,6 +9,7 @@ class TicTacToeGame{
 
 	//creating and initializing empty grid
 	Grid createGrid(){
+		this.term = true;
 		Grid grid = new Grid();
 		grid.initializeGrid();
 		return grid;
@@ -34,6 +35,7 @@ class TicTacToeGame{
 	}
 	public void startGame(Player p1,Player p2){
 
+		
 		//creating 3x3 grid and initializing to empty with numbers
 		Grid grid = this.createGrid();
 
@@ -80,7 +82,14 @@ class TicTacToeGame{
 			System.out.println("\nMatch Tied\n");
 		}
 		grid.printGrid();
-		//System.out.println("Wanna Play Again (y/n)?");
+		System.out.println("Wanna Play Again (y/n)?");
+		String play = sc.nextLine();
+		play = sc.nextLine();
+		if(play.equalsIgnoreCase("y") || play.equalsIgnoreCase("yes")){
+			this.startGame(p1,p2);
+		}else{
+			System.out.println("Bye!");
+		}
 
 		//System.out.println(whoWon);
 
