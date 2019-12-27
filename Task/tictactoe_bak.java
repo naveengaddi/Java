@@ -138,14 +138,15 @@ class TicTacToeGame{
 			grid.printGrid();
 			System.out.println("\nMatch Tied\n");
 		}
+		System.out.println("Wanna Play Again (y/n)?");
+
 		//System.out.println(whoWon);
 
 
 	}
+	//checks any player won or not returns players symbol if won..else returns '$'
 	private char isPlayerWon(Grid gd){
 		//logic goes here for winning
-		//return true | false;
-		//boolean flg = false;
 		char whoWon = '$';
 		for (int i = 0; i<gd.size ;i++){
 			if(gd.grid[i][0]!=' ' && gd.grid[i][1]==gd.grid[i][2] && gd.grid[i][2]==gd.grid[i][0]){
