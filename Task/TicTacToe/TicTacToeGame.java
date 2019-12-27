@@ -97,25 +97,25 @@ class TicTacToeGame{
 		//logic goes here for winning
 		char whoWon = '$';
 		for (int i = 0; i<gd.size ;i++){
-			if(gd.grid[i][0]!=' ' && gd.grid[i][1]==gd.grid[i][2] && gd.grid[i][2]==gd.grid[i][0]){
+			if(gd.grid[i][1]==gd.grid[i][2] && gd.grid[i][2]==gd.grid[i][0]){
 				//return true;
 				//flg = true;
 				whoWon = gd.grid[i][0];
 				return whoWon;
 			}
-			if(gd.grid[0][i]!=' ' && gd.grid[1][i]==gd.grid[0][i] && gd.grid[2][i]==gd.grid[0][i]){
+			if(gd.grid[1][i]==gd.grid[0][i] && gd.grid[2][i]==gd.grid[0][i]){
 				//flg = true;
 				whoWon = gd.grid[0][i];
 				return whoWon;
 				//break;
 			}
 		}
-		if(gd.grid[1][1]!=' ' && gd.grid[0][0]==gd.grid[1][1] && gd.grid[1][1]==gd.grid[2][2]){
+		if(gd.grid[0][0]==gd.grid[1][1] && gd.grid[1][1]==gd.grid[2][2]){
 			//flg = true;
 			whoWon = gd.grid[0][0];
 			return whoWon;
 
-		}else if(gd.grid[1][1]!=' ' && gd.grid[1][1]==gd.grid[2][0] && gd.grid[2][0]==gd.grid[0][2]){
+		}else if(gd.grid[1][1]==gd.grid[2][0] && gd.grid[2][0]==gd.grid[0][2]){
 			//flg = true;
 			whoWon = gd.grid[1][1];
 			return whoWon;
