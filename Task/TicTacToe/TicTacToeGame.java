@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.Scanner;
-
 //Class Tic Tac toe game to play game.
 class TicTacToeGame{
 
