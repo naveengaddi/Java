@@ -61,8 +61,8 @@ class Person{
 }
 class GridGame{
 	/*
-            |2,3    (2 right moves , 3 up moves)
-            | 
+                |2,3    (2 right moves , 3 up moves)
+                | 
 	0,0__ __|
 	*/
 	Grid grid;	
