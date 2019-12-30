@@ -1,20 +1,12 @@
-import java.io.*;
-import java.util.Scanner;
+
 //Class Tic Tac toe game to play game.
 class TicTacToeGame{
 
 	//boolean var to indicate players turn...
-	// boolean term;
-	// Player p1,p2;
-	// Grid grid;
-	// TicTacToeGame(Player p1,Player p2,Grid grid){
-	// 	this.
-	// }
+	boolean term = true;
 
 	//creating and initializing empty grid
 	Grid createGrid(){
-		this.term = true;
-		//Grid grid = Grid.getGrid();
 		Grid grid = new Grid();
 		grid.initializeGrid();
 		return grid;
@@ -40,7 +32,6 @@ class TicTacToeGame{
 	}
 	public void startGame(Player p1,Player p2){
 
-		
 		//creating 3x3 grid and initializing to empty with numbers
 		Grid grid = this.createGrid();
 
@@ -79,22 +70,17 @@ class TicTacToeGame{
 
 		}
 		if(p1.symbol == whoWon ){
-			System.out.println("==>>Player "+p1.name+" Won<<==");
+			System.out.println("Player "+p1.name+" Won");
 		}else if(p2.symbol == whoWon){
-			System.out.println("==>>Player "+p2.name+" Won<<==");
+			System.out.println("Player "+p2.name+" Won");
 		}else{
-			
-			System.out.println("\n==>>Match Tied<<==\n");
+			grid.printGrid();
+			System.out.println("\nMatch Tied\n");
 		}
-		grid.printGrid();
-		System.out.println("\nWanna Play Again (y/n)?");
-		String play = sc.nextLine();
-		play = sc.nextLine();
-		if(play.equalsIgnoreCase("y") || play.equalsIgnoreCase("yes")){
-			this.startGame(p1,p2);
-		}else{
-			System.out.println("Bye!");
-		}
+		System.out.println("Wanna Play Again (y/n)?");
+
+		//System.out.println(whoWon);
+
 
 	}
 	//checks any player won or not returns players symbol if won..else returns '$'
@@ -102,25 +88,25 @@ class TicTacToeGame{
 		//logic goes here for winning
 		char whoWon = '$';
 		for (int i = 0; i<gd.size ;i++){
-			if(gd.grid[i][1]==gd.grid[i][2] && gd.grid[i][2]==gd.grid[i][0]){
+			if(gd.grid[i][0]!=' ' && gd.grid[i][1]==gd.grid[i][2] && gd.grid[i][2]==gd.grid[i][0]){
 				//return true;
 				//flg = true;
 				whoWon = gd.grid[i][0];
 				return whoWon;
 			}
-			if(gd.grid[1][i]==gd.grid[0][i] && gd.grid[2][i]==gd.grid[0][i]){
+			if(gd.grid[0][i]!=' ' && gd.grid[1][i]==gd.grid[0][i] && gd.grid[2][i]==gd.grid[0][i]){
 				//flg = true;
 				whoWon = gd.grid[0][i];
 				return whoWon;
 				//break;
 			}
 		}
-		if(gd.grid[0][0]==gd.grid[1][1] && gd.grid[1][1]==gd.grid[2][2]){
+		if(gd.grid[1][1]!=' ' && gd.grid[0][0]==gd.grid[1][1] && gd.grid[1][1]==gd.grid[2][2]){
 			//flg = true;
 			whoWon = gd.grid[0][0];
 			return whoWon;
 
-		}else if(gd.grid[1][1]==gd.grid[2][0] && gd.grid[2][0]==gd.grid[0][2]){
+		}else if(gd.grid[1][1]!=' ' && gd.grid[1][1]==gd.grid[2][0] && gd.grid[2][0]==gd.grid[0][2]){
 			//flg = true;
 			whoWon = gd.grid[1][1];
 			return whoWon;
