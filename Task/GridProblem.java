@@ -1,6 +1,6 @@
 class Grid{
 	//default size of grid is 10
-	static int size = 10;
+	static int size;
 	Grid(int size){
 		this.size  = size;
 	}
