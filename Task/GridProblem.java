@@ -140,9 +140,6 @@ class GridGame{
 		}
 		
 	}
-	Ball getBall(){
-		return this.ball;
-	}
 
 }
 public class GridProblem{
