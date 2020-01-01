@@ -1,17 +1,25 @@
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
+class Die{
+	int rollDie(){
+		return (int)(Math.random()*6)+1;
+	}
+}
 class Player{
-	final String name;
+	private final String name;
 	private int position;
 	Player(String name){
 		this.name = name;
 		this.position = 0;
 	}
-	int rollDie(){
-		return (int)(Math.random()*6)+1;
+	String getName(){
+		return this.name;
 	}
-	void setPosition(int position){
+	int rollDie(Die die){
+		return die.rollDie();
+	}
+	void updatePosition(int position){
 		this.position = position;
 		System.out.println("Current Position is "+this.position);
 	}
@@ -24,7 +32,7 @@ abstract class SpecialPositions{
 
 }
 class Snake extends SpecialPositions{
-	Map<Integer,Integer> snakes = new HashMap<>();
+	private Map<Integer,Integer> snakes = new HashMap<>();
 	Snake(){
 		this.snakes.put(16,8);
 		this.snakes.put(52,28);
@@ -38,10 +46,18 @@ class Snake extends SpecialPositions{
 	public Map<Integer,Integer> getPositions(){
 		return this.snakes;
 	}
+	boolean checkPlayerLandedOnSnake(Player player){
+		if(this.snakes.containsKey(player.getPosition())){
+			player.updatePosition(this.snakes.get(player.getPosition()));
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }
 class Ladder extends SpecialPositions{
-	Map<Integer,Integer> ladders = new HashMap<>();
+	private Map<Integer,Integer> ladders = new HashMap<>();
 	Ladder(){
 		this.ladders.put(2,45);
 		this.ladders.put(4,27);
@@ -55,20 +71,39 @@ class Ladder extends SpecialPositions{
 	public Map<Integer,Integer> getPositions(){
 		return this.ladders;
 	}
+	boolean checkPlayerLandedOnLadder(Player player){
+		if(this.ladders.containsKey(player.getPosition())){
+			player.updatePosition(this.ladders.get(player.getPosition()));
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 class GameBoard{
-	Ladder ladder;
-	Snake snake;
+	private Ladder ladder;
+	private Snake snake;
+	private Die die;
 
 	GameBoard(){
 		this.ladder = new Ladder();
 		this.snake = new Snake();
-	}	
+		this.die = new Die();
+	}
+	Ladder getLadders(){
+		return this.ladder;
+	}
+	Snake getSnakes(){
+		return this.snake;
+	}
+	Die getDie(){
+		return this.die;
+	}
 }
 
 class SnakeAndLadderGame{
-	GameBoard gameBoard;
-	Player player1,player2,currentPlayer;
+	private GameBoard gameBoard;
+	private Player player1,player2,currentPlayer;
     SnakeAndLadderGame(Player player1,Player player2){
     	this.gameBoard = new GameBoard();
     	this.player1 = player1;
@@ -83,14 +118,11 @@ class SnakeAndLadderGame{
     }
     String checkForSpecialPositions(Player currentPlayer){
     	String ret = "";
-    	if(this.gameBoard.snake.snakes.containsKey(currentPlayer.getPosition())){
+    	if(this.gameBoard.getSnakes().checkPlayerLandedOnSnake(currentPlayer)){
     		System.out.println("You landed on snake");
-    		currentPlayer.setPosition(this.gameBoard.snake.snakes.get(currentPlayer.getPosition()));
     		ret = "snake";
-    		
-    	}else if(this.gameBoard.ladder.ladders.containsKey(currentPlayer.getPosition())){
+    	}else if(this.gameBoard.getLadders().checkPlayerLandedOnLadder(currentPlayer)){
     		System.out.println("You landed on ladder");
-    		currentPlayer.setPosition(this.gameBoard.ladder.ladders.get(currentPlayer.getPosition()));
     		ret = "ladder";
     	}
     	return ret;
@@ -99,15 +131,15 @@ class SnakeAndLadderGame{
 	public void startGame(){
 		Scanner input = new Scanner(System.in);
 		currentPlayer = player1;
-		while(this.isGameEnded()!=true){
-			System.out.println("\n"+currentPlayer.name+"\'s Position-> "+currentPlayer.getPosition()+" "+" -- Press Enter to Roll Die");
+		while(!this.isGameEnded()){
+			System.out.println("\n"+currentPlayer.getName()+"\'s Position-> "+currentPlayer.getPosition()+" "+" -- Press Enter to Roll Die");
 			input.nextLine();
-			int die_number = currentPlayer.rollDie();
-			System.out.println(currentPlayer.name+" Rolled Die. Number is --> "+die_number);
+			int die_number = currentPlayer.rollDie(gameBoard.getDie());
+			System.out.println(currentPlayer.getName()+" Rolled Die. Number is --> "+die_number);
 			if(this.validateDieNumber(currentPlayer,die_number)==true){
-				currentPlayer.setPosition(currentPlayer.getPosition()+die_number);
+				currentPlayer.updatePosition(currentPlayer.getPosition()+die_number);
 				String landedObject = this.checkForSpecialPositions(currentPlayer);
-				if(/*landedObject.equalsIgnoreCase("ladder") ||*/ (die_number == 6 && landedObject!="snake") ){
+				if((die_number == 6 && landedObject!="snake") ){
 					continue;
 				}
 			}
@@ -122,9 +154,9 @@ class SnakeAndLadderGame{
 	}
 	void whoWon(){
 		if(this.player1.getPosition()==100){
-			System.out.println("Player --> "+player1.name+" Won the Match");
+			System.out.println("Player --> "+player1.getName()+" Won the Match");
 		}else{
-			System.out.println("Player --> "+player2.name+" Won the Match");
+			System.out.println("Player --> "+player2.getName()+" Won the Match");
 		}
 	}
 	boolean isGameEnded(){
