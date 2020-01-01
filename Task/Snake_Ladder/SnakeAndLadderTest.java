@@ -128,6 +128,9 @@ class SnakeAndLadderGame{
     	return ret;
 
     }
+    void updatePlayerPosition(int die_number){
+    	this.currentPlayer.updatePosition(this.currentPlayer.getPosition()+die_number);
+    }
 	public void startGame(){
 		Scanner input = new Scanner(System.in);
 		currentPlayer = player1;
@@ -137,7 +140,8 @@ class SnakeAndLadderGame{
 			int die_number = currentPlayer.rollDie(gameBoard.getDie());
 			System.out.println(currentPlayer.getName()+" Rolled Die. Number is --> "+die_number);
 			if(this.validateDieNumber(currentPlayer,die_number)==true){
-				currentPlayer.updatePosition(currentPlayer.getPosition()+die_number);
+				updatePlayerPosition(die_number);
+				//currentPlayer.updatePosition(currentPlayer.getPosition()+die_number);
 				String landedObject = this.checkForSpecialPositions(currentPlayer);
 				if((die_number == 6 && landedObject!="snake") ){
 					continue;
