@@ -74,19 +74,19 @@ class Person{
 		}
 	}
 	void nextMove(GridGame game){
-		double dist_before_move = game.calculateDistance(this,game.getBall());
+		double dist_before_move = game.calculateDistance();
 		System.out.println("Moving Right");
 		this.move("right");
-		double dist_after_right_move = game.calculateDistance(this,game.getBall());
+		double dist_after_right_move = game.calculateDistance();
 		if(dist_before_move < dist_after_right_move){
 			//revert move bcz gng in wrng direction..
 			System.out.println("Reverting previous move RIGHT move is not correct");
 			this.move("left");
 		}
-		dist_before_move = game.calculateDistance(this,game.getBall());
+		dist_before_move = game.calculateDistance();
 		System.out.println("Moving Up");
 		this.move("up");
-		double dist_after_up_move = game.calculateDistance(this,game.getBall());
+		double dist_after_up_move = game.calculateDistance();
 		if(dist_before_move < dist_after_up_move){
 			System.out.println("Reverting move. UP move is not correct");
 			this.move("down");
@@ -122,8 +122,8 @@ class GridGame{
 		return (int)(Math.random()*this.grid.getSize());
 	}
 	
-	double calculateDistance(Person person,Ball ball){
-		return person.getPosition().calculateDistance(ball.getPosition());
+	double calculateDistance(){
+		return this.person.getPosition().calculateDistance(this.ball.getPosition());
 	}
 	boolean isPersonReachedBall(){
 		if(this.person.getPosition().equals(this.ball.getPosition()))
