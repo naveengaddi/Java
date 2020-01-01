@@ -1,8 +1,14 @@
 class Grid{
 	//default size of grid is 10
-	static final int size;
+	private static int size;
 	Grid(int size){
 		this.size  = size;
+	}
+	Grid(){
+		this.size = 10;
+	}
+	int getSize(){
+		return this.size+1;
 	}
 	
 }
@@ -12,84 +18,130 @@ class Position{
 		this.x = x;
 		this.y = y;
 	}
-	// Pair<Integer,Integer> getCoordinates(){
-	// 	return this.co_ordinate;
-	// }
-	int getXCoordinate(){
-		return this.x;
+	String getPosition(){
+		return this.x+","+this.y;
 	}
-	int getYCoordinate(){
-		return this.y;
+	void incrementXCoordinate(){
+		this.x++;
+	}
+	void incrementYCoordinate(){
+		this.y++;
+	}
+	void decrementXCoodinate(){
+		this.x--;
+	}
+	void decrementYCoodinate(){
+		this.y--;
+	}
+	boolean equals(Position position){
+		if(this.x == position.x && this.y == position.y)
+			return true;
+		return false;
+	}
+	double calculateDistance(Position position){
+		return Math.pow((this.x-position.x),2)+Math.pow((this.y-position.y),2);
 	}
 }
 
 class Ball{
-	final Position ball_position;
-	Ball(){
-
-		this.ball_position = new Position(this.getRandomNumberWithinGrid(),this.getRandomNumberWithinGrid());
+	private final Position ball_position;
+	Ball(Position ball_position){
+		this.ball_position = ball_position;
 	}
 	void printPosition(){
-		System.out.println("Ball Position is ("+this.ball_position.getXCoordinate()+","+this.ball_position.getYCoordinate()+")");
+		System.out.println("Ball Position is ("+this.ball_position.getPosition()+")");
 	}
-	int getRandomNumberWithinGrid(){
-		return (int)(Math.random()*Grid.size+1);
+	Position getPosition(){
+		return this.ball_position;
 	}
-
 }
 class Person{
-	Position person_position;
-	Person(int x,int y){
-		this.person_position = new Position(x,y);
-	}
-	Person(){
-		this.person_position = new Position(0,0);
+	private Position person_position;
+	Person(Position person_position){
+		this.person_position = person_position;
 	}
 	void move(String command){
 		if(command.equalsIgnoreCase("right")){
-			this.person_position = new Position(this.person_position.getXCoordinate()+1,this.person_position.getYCoordinate());
-			//this.person_position.setXCoordinate(this.person_position.getXCoordinate()+1);
+			this.person_position.incrementXCoordinate();
 		}else if(command.equalsIgnoreCase("up")){
-			this.person_position = new Position(this.person_position.getXCoordinate(),this.person_position.getYCoordinate()+1);
-			//this.person_position.setYCoordinate(this.person_position.getYCoordinate()+1);
+			this.person_position.incrementYCoordinate();
+		}else if(command.equalsIgnoreCase("left")){
+			this.person_position.decrementXCoodinate();
+		}else if(command.equalsIgnoreCase("down")){
+			this.person_position.decrementYCoodinate();
+		}else{
+			System.out.println("Unknown Command");
 		}
 	}
+	void nextMove(GridGame game){
+		double dist_before_move = game.calculateDistance(this,game.getBall());
+		System.out.println("Moving Right");
+		this.move("right");
+		double dist_after_right_move = game.calculateDistance(this,game.getBall());
+		if(dist_before_move < dist_after_right_move){
+			//revert move bcz gng in wrng direction..
+			System.out.println("Reverting previous move RIGHT move is not correct");
+			this.move("left");
+		}
+		dist_before_move = game.calculateDistance(this,game.getBall());
+		System.out.println("Moving Up");
+		this.move("up");
+		double dist_after_up_move = game.calculateDistance(this,game.getBall());
+		if(dist_before_move < dist_after_up_move){
+			System.out.println("Reverting move. UP move is not correct");
+			this.move("down");
+		}
+
+
+	}
 	void printPosition(){
-		System.out.println("Person Position is ("+this.person_position.getXCoordinate()+","+this.person_position.getYCoordinate()+")");
+		System.out.println("Person Position is ("+this.person_position.getPosition()+")");
+	}
+	
+	Position getPosition(){
+		return this.person_position;
 	}
 
 }
 class GridGame{
 	/*
-                |2,3    (2 right moves , 3 up moves)
-                | 
+            |2,3    (2 right moves , 3 up moves)
+            | 
 	0,0__ __|
 	*/
-	Grid grid;	
-	void createGrid(int size){
-		this.grid = new Grid(size);
+	private final Grid grid;
+	private Person person;
+	private Ball ball;
+	GridGame(){
+		this.grid = new Grid(10);
+		this.ball = new Ball(new Position(this.getRandomNumberWithinGrid(),this.getRandomNumberWithinGrid()));
+		this.person = new Person(new Position(0,0));
+
 	}
-	boolean isPersonReachedBall(Ball ball,Person person){
-		if(ball.ball_position.getXCoordinate()==person.person_position.getXCoordinate() && ball.ball_position.getYCoordinate()==person.person_position.getYCoordinate() )
+	int getRandomNumberWithinGrid(){
+		return (int)(Math.random()*this.grid.getSize());
+	}
+	
+	double calculateDistance(Person person,Ball ball){
+		return person.getPosition().calculateDistance(ball.getPosition());
+	}
+	boolean isPersonReachedBall(){
+		if(this.person.getPosition().equals(this.ball.getPosition()))
 			return true;
 		return false;
 	}
-	public void findPath(Ball ball,Person person){
-		ball.printPosition();
-		person.printPosition();
-		while(isPersonReachedBall(ball,person)==false){
-			if(person.person_position.getXCoordinate()<ball.ball_position.getXCoordinate()){
-				System.out.println("Move Right");
-				person.move("right");
-				person.printPosition();
-			}
-			if(person.person_position.getYCoordinate()<ball.ball_position.getYCoordinate()){
-				System.out.println("Move Up");
-				person.move("up");
-				person.printPosition();
-			}
+	public void findPath(){
+		this.ball.printPosition();
+		this.person.printPosition();
+
+		while(!isPersonReachedBall()){
+			this.person.nextMove(this);
+			this.person.printPosition();
 		}
 		
+	}
+	Ball getBall(){
+		return this.ball;
 	}
 
 }
@@ -98,12 +150,7 @@ public class GridProblem{
 
 
 		GridGame gridGame = new GridGame();
-		gridGame.createGrid(10);
 
-		Ball ball = new Ball();
-
-		Person person = new Person();
-
-		gridGame.findPath(ball,person);
+		gridGame.findPath();
 	}
 }
