@@ -141,7 +141,6 @@ class SnakeAndLadderGame{
 			System.out.println(currentPlayer.getName()+" Rolled Die. Number is --> "+die_number);
 			if(this.validateDieNumber(currentPlayer,die_number)==true){
 				updatePlayerPosition(die_number);
-				//currentPlayer.updatePosition(currentPlayer.getPosition()+die_number);
 				String landedObject = this.checkForSpecialPositions(currentPlayer);
 				if((die_number == 6 && landedObject!="snake") ){
 					continue;
