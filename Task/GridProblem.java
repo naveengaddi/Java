@@ -61,35 +61,41 @@ class Person{
 		this.person_position = person_position;
 	}
 	void move(String command){
-		if(command.equalsIgnoreCase("right")){
-			this.person_position.incrementXCoordinate();
-		}else if(command.equalsIgnoreCase("up")){
-			this.person_position.incrementYCoordinate();
-		}else if(command.equalsIgnoreCase("left")){
-			this.person_position.decrementXCoodinate();
-		}else if(command.equalsIgnoreCase("down")){
-			this.person_position.decrementYCoodinate();
-		}else{
-			System.out.println("Unknown Command");
+		switch (command) {
+			case "RIGHT":
+				this.person_position.incrementXCoordinate();
+				break;
+			case "LEFT":
+				this.person_position.decrementXCoodinate();
+				break;
+			case "UP":
+				this.person_position.incrementYCoordinate();
+				break;
+			case "DOWN":
+				this.person_position.decrementYCoodinate();
+				break;
+			default:
+				System.out.println("Unknown Command");
+
 		}
 	}
 	void nextMove(GridGame game){
 		double dist_before_move = game.calculateDistance();
 		System.out.println("Moving Right");
-		this.move("right");
+		this.move("RIGHT");
 		double dist_after_right_move = game.calculateDistance();
 		if(dist_before_move < dist_after_right_move){
 			//revert move bcz gng in wrng direction..
 			System.out.println("Reverting previous move RIGHT move is not correct");
-			this.move("left");
+			this.move("LEFT");
 		}
 		dist_before_move = game.calculateDistance();
 		System.out.println("Moving Up");
-		this.move("up");
+		this.move("UP");
 		double dist_after_up_move = game.calculateDistance();
 		if(dist_before_move < dist_after_up_move){
 			System.out.println("Reverting move. UP move is not correct");
-			this.move("down");
+			this.move("DOWN");
 		}
 
 
@@ -139,6 +145,9 @@ class GridGame{
 			this.person.printPosition();
 		}
 		
+	}
+	Ball getBall(){
+		return this.ball;
 	}
 
 }
