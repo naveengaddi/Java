@@ -11,22 +11,22 @@ class Grid{
 		7 8 9
 	*/
 	void initializeGrid(){
-		int cnt = 0;
+		int counter = 0;
 		for (int i = 0 ;i<this.size;i++ ) {
 			for (int j = 0;j<this.size ;j++ ) {
-				this.grid[i][j] = (char)(cnt+49);
-				cnt++;
+				this.grid[i][j] = (char)(counter+49);
+				counter++;
 			}
 		}
 	}
 	//utility function returns true if any block is empty in grid
 	boolean hasEmptyLocation(){
-		int cnt = 0;
+		int counter = 0;
 		for (int i = 0 ;i<this.size;i++ ) {
 			for (int j = 0;j<this.size ;j++ ) {
-				if(this.grid[i][j] == (char)(cnt+49) )
+				if(this.grid[i][j] == (char)(counter+49) )
 					return true;
-				cnt++;
+				counter++;
 			}
 		}
 		return false;
