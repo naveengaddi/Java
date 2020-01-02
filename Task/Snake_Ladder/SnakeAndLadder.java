@@ -169,7 +169,7 @@ class SnakeAndLadderGame{
 		return false;
 	}
 }
-class SnakeAndLadderTest{
+class SnakeAndLadder{
 	public static void main(String[] args) {
 		Player player1 = new Player("Naveen");
 		Player player2 = new Player("Gaddi");
