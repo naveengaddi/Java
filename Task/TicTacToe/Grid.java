@@ -11,42 +11,35 @@ class Grid{
 		7 8 9
 	*/
 	void initializeGrid(){
-		int counter = 0;
+		int cnt = 0;
 		for (int i = 0 ;i<this.size;i++ ) {
 			for (int j = 0;j<this.size ;j++ ) {
-				this.grid[i][j] = (char)(counter+49);
-				counter++;
+				this.grid[i][j] = (char)(cnt+49);
+				cnt++;
 			}
 		}
 	}
 	//utility function returns true if any block is empty in grid
 	boolean hasEmptyLocation(){
-		int counter = 0;
+		int cnt = 0;
 		for (int i = 0 ;i<this.size;i++ ) {
 			for (int j = 0;j<this.size ;j++ ) {
-				if(this.grid[i][j] == (char)(counter+49) )
+				if(this.grid[i][j] == (char)(cnt+49) )
 					return true;
-				counter++;
+				cnt++;
 			}
 		}
 		return false;
 	}
 	boolean markLocationInGrid(Player currentPlayer,int markLocation){
-		int counter = 0;
-		for (int i = 0 ;i<this.size;i++ ) {
-			for (int j = 0;j<this.size ;j++ ) {
-				counter++;
-				if(counter == markLocation){	
-					if(this.grid[i][j] == (char)(counter+48)){
-						this.grid[i][j] = currentPlayer.getSymbol();
-						return true;
-					}else{
-						return false;
-					}
-				}
-			}
-		}
-		return false;
+		int jLocation = (markLocation-1)%this.size;
+		int iLocation = (markLocation-1-jLocation)/this.size;
+		if(this.grid[iLocation][jLocation] == (char)(markLocation+48)){
+			this.grid[iLocation][jLocation] = currentPlayer.getSymbol();
+		 	return true;
+		 }else{
+		 	return false;
+		 }
 	}
 
 	//utility method to print grid
