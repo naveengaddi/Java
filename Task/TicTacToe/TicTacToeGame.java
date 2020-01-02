@@ -2,130 +2,101 @@ import java.io.*;
 import java.util.Scanner;
 //Class Tic Tac toe game to play game.
 class TicTacToeGame{
+	private Grid grid;
+	private Player player1,player2,currentPlayer;
+	 TicTacToeGame(String player1_name,String player2_name){
+	 	this.grid = this.createGrid();
+	 	this.player1 = new Player(player1_name,'X');
+	 	this.player2 = new Player(player2_name,'O');
 
-	//boolean var to indicate players turn...
-	// boolean term;
-	// Player p1,p2;
-	// Grid grid;
-	// TicTacToeGame(Player p1,Player p2,Grid grid){
-	// 	this.
-	// }
-
-	//creating and initializing empty grid
-	Grid createGrid(){
-		this.term = true;
-		//Grid grid = Grid.getGrid();
+	 }
+	private Grid createGrid(){
 		Grid grid = new Grid();
-		grid.initializeGrid();
 		return grid;
 	}
-	private boolean setPointInGrid(Player p,Grid gd,int point){
-		int cnt = 0;
-		for (int i = 0;i<gd.size ;i++ ) {
-			for (int j = 0;j<gd.size;j++ ) {
-				cnt++;
-				if(cnt == point){
-					if(gd.grid[i][j]==(char)(cnt+48)){
-						gd.grid[i][j] = p.symbol;
-						return true;	
-					}else{
-						return false;
-					}
-					
-				}
+	private void declareWinner(){
+		this.togglePlayerTurn();
+		this.grid.printGrid();
+		System.out.println("==>>Player "+currentPlayer.getName()+" Won<<==");
+		
+	}
+	private void gameEnded(){
+
+		Scanner input = new Scanner(System.in);
+		System.out.println("\nWanna Play Again (y/n)?");
+		String play = input.nextLine();
+		
+		if(play.equalsIgnoreCase("y") || play.equalsIgnoreCase("yes")){
+			this.startGame();
+		}else{
+			System.out.println("Bye!");
+		}
+	}
+	private void togglePlayerTurn(){
+		if(this.currentPlayer == this.player1){
+			this.currentPlayer = this.player2;
+		}else{
+			this.currentPlayer = this.player1;
+		}
+	}
+	private boolean gameOver(){
+		//update code for future use as winning conditions
+		for (int i = 0; i<this.grid.getSize();i++){
+			if(this.grid.grid[i][1]==this.grid.grid[i][2] && this.grid.grid[i][2]==this.grid.grid[i][0]){
+				return true;
 			}
+			if(this.grid.grid[1][i]==this.grid.grid[0][i] && this.grid.grid[2][i]==this.grid.grid[0][i]){
+				return true;
+			}
+		}
+		if(this.grid.grid[0][0]==this.grid.grid[1][1] && this.grid.grid[1][1]==this.grid.grid[2][2]){
+			return true;
+
+		}else if(this.grid.grid[1][1]==this.grid.grid[2][0] && this.grid.grid[2][0]==this.grid.grid[0][2]){
+			return true;
 		}
 		return false;
 
 	}
-	public void startGame(Player p1,Player p2){
+	boolean markLocationInGrid(Player currentPlayer,int markLocation){
+		if(this.currentPlayer.getSymbol() == currentPlayer.getSymbol()){
+			if(this.grid.markLocationInGrid(this.currentPlayer,markLocation))
+				return true;
+			else
+				return false;
+		}else{
+			return false;
+		}
+	}
+	public void startGame(){
 
-		
-		//creating 3x3 grid and initializing to empty with numbers
-		Grid grid = this.createGrid();
+		this.grid.initializeGrid();
 
-		//input from player creating object
-		Scanner sc = new Scanner(System.in);
+		Scanner input = new Scanner(System.in);
 
 		System.out.println("Game Started\n");
-
-		//grid.printGrid();
-		//System.out.println(this.isPlayerWon(grid));
-		int point = -1;
-		char whoWon ='$';
-		while( (whoWon=this.isPlayerWon(grid)) == '$' && grid.isEmpty()==true ){
-			grid.printGrid();
+	
+		currentPlayer = player1;
+		while(!this.gameOver() && this.grid.hasEmptyLocation()){
+			this.grid.printGrid();
 			System.out.println("\nEnter the number to play");
-			if(this.term){
-				System.out.println("Player 1 term");
-				point = sc.nextInt();
-				//System.out.println(point);
-				if(this.setPointInGrid(p1,grid,point)){
-					this.term = false;
-				}
-				else{
-					System.out.println("Invalid Position");
-				}
+			System.out.println("Player "+currentPlayer.getName()+" turn");
+			int markLocation = input.nextInt();
+			if(!currentPlayer.markLocationInGrid(this,markLocation)){
+				continue;
 			}else{
-				System.out.println("Player 2 term");
-				point = sc.nextInt();
-				if(this.setPointInGrid(p2,grid,point)){
-					this.term = true;
-				}
-				else{
-					System.out.println("Invalid Position");
-				}
+				this.togglePlayerTurn();
 			}
+			
 
 		}
-		if(p1.symbol == whoWon ){
-			System.out.println("==>>Player "+p1.name+" Won<<==");
-		}else if(p2.symbol == whoWon){
-			System.out.println("==>>Player "+p2.name+" Won<<==");
+		if(this.gameOver()){
+			this.declareWinner();
 		}else{
-			
 			System.out.println("\n==>>Match Tied<<==\n");
 		}
-		grid.printGrid();
-		System.out.println("\nWanna Play Again (y/n)?");
-		String play = sc.nextLine();
-		play = sc.nextLine();
-		if(play.equalsIgnoreCase("y") || play.equalsIgnoreCase("yes")){
-			this.startGame(p1,p2);
-		}else{
-			System.out.println("Bye!");
-		}
+		this.gameEnded();
 
 	}
-	//checks any player won or not returns players symbol if won..else returns '$'
-	private char isPlayerWon(Grid gd){
-		//logic goes here for winning
-		char whoWon = '$';
-		for (int i = 0; i<gd.size ;i++){
-			if(gd.grid[i][1]==gd.grid[i][2] && gd.grid[i][2]==gd.grid[i][0]){
-				//return true;
-				//flg = true;
-				whoWon = gd.grid[i][0];
-				return whoWon;
-			}
-			if(gd.grid[1][i]==gd.grid[0][i] && gd.grid[2][i]==gd.grid[0][i]){
-				//flg = true;
-				whoWon = gd.grid[0][i];
-				return whoWon;
-				//break;
-			}
-		}
-		if(gd.grid[0][0]==gd.grid[1][1] && gd.grid[1][1]==gd.grid[2][2]){
-			//flg = true;
-			whoWon = gd.grid[0][0];
-			return whoWon;
-
-		}else if(gd.grid[1][1]==gd.grid[2][0] && gd.grid[2][0]==gd.grid[0][2]){
-			//flg = true;
-			whoWon = gd.grid[1][1];
-			return whoWon;
-		}
-		return whoWon;
-
-	}
+	
 }
