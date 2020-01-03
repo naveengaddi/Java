@@ -21,17 +21,24 @@ class Position{
 	String getPosition(){
 		return this.x+","+this.y;
 	}
-	void incrementXCoordinate(){
+	private Position getPositionObject(){
+		return new Position(this.x,this.y);
+	}
+	Position incrementXCoordinate(){
 		this.x++;
+		return this.getPositionObject();
 	}
-	void incrementYCoordinate(){
+	Position incrementYCoordinate(){
 		this.y++;
+		return this.getPositionObject();
 	}
-	void decrementXCoodinate(){
+	Position decrementXCoodinate(){
 		this.x--;
+		return this.getPositionObject();
 	}
-	void decrementYCoodinate(){
+	Position decrementYCoodinate(){
 		this.y--;
+		return this.getPositionObject();
 	}
 	boolean equals(Position position){
 		if(this.x == position.x && this.y == position.y)
@@ -63,16 +70,16 @@ class Person{
 	void move(String command){
 		switch (command) {
 			case "RIGHT":
-				this.person_position.incrementXCoordinate();
+				this.person_position = this.person_position.incrementXCoordinate();
 				break;
 			case "LEFT":
-				this.person_position.decrementXCoodinate();
+				this.person_position = this.person_position.decrementXCoodinate();
 				break;
 			case "UP":
-				this.person_position.incrementYCoordinate();
+				this.person_position =  this.person_position.incrementYCoordinate();
 				break;
 			case "DOWN":
-				this.person_position.decrementYCoodinate();
+				this.person_position =  this.person_position.decrementYCoodinate();
 				break;
 			default:
 				System.out.println("Unknown Command");
@@ -124,23 +131,22 @@ class GridGame{
 		this.person = new Person(new Position(0,0));
 
 	}
-	int getRandomNumberWithinGrid(){
+	private int getRandomNumberWithinGrid(){
 		return (int)(Math.random()*this.grid.getSize());
 	}
-	
-	double calculateDistance(){
-		return this.person.getPosition().calculateDistance(this.ball.getPosition());
-	}
-	boolean isPersonReachedBall(){
+	private boolean isPersonReachedBall(){
 		if(this.person.getPosition().equals(this.ball.getPosition()))
 			return true;
 		return false;
+	}
+	double calculateDistance(){
+		return this.person.getPosition().calculateDistance(this.ball.getPosition());
 	}
 	public void findPath(){
 		this.ball.printPosition();
 		this.person.printPosition();
 
-		while(!isPersonReachedBall()){
+		while(!this.isPersonReachedBall()){
 			this.person.nextMove(this);
 			this.person.printPosition();
 		}
