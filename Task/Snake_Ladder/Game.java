@@ -56,7 +56,7 @@ public class Game{
             input.nextLine();
             int die_number = currentPlayer.rollDie(gameBoard.getDie());
             System.out.println(currentPlayer.getName()+" Rolled Die. Number is --> "+die_number);
-            if(this.validateDieNumber(currentPlayer,die_number)==true){
+            if(this.validateDieNumber(currentPlayer,die_number)){
                 this.updatePlayerPosition(die_number);
                 LandedObject landedObject = this.checkForSpecialPositions(currentPlayer);
                 if((die_number == 6 && landedObject!=LandedObject.SNAKE)){
